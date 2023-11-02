@@ -1,4 +1,5 @@
-## Manticore-Mustard-Potatoes
+## Manticore Mustard Potatoes
+
 Spicy and flavorful roasted potatoes.
 
 This recipe is loved by: Manticore, Fire Giants

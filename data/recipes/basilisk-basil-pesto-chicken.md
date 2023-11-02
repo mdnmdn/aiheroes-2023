@@ -1,4 +1,5 @@
-## Basilisk-Basil-Pesto-Chicken
+## Basilisk Basil Pesto Chicken
+
 A petrifyingly good chicken dish.
 
 This recipe is loved by: Gorgons, Basilisks

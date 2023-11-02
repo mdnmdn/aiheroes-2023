@@ -1,4 +1,5 @@
-## Phoenix-Fig-Parfait
+## Phoenix Fig Parfait
+
 A heavenly dessert with fiery figs.
 
 This recipe is loved by: Phoenix, Angels

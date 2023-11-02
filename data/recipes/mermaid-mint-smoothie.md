@@ -1,4 +1,5 @@
-## Mermaid-Mint-Smoothie
+## Mermaid Mint Smoothie
+
 A refreshing and minty smoothie.
 
 This recipe is loved by: Mermaids, Nymphs

@@ -1,4 +1,5 @@
-## Unicorn-Truffle-Mashed-Potatoes
+## Unicorn Truffle Mashed Potatoes
+
 
 
 Creamy and luxurious mashed potatoes.

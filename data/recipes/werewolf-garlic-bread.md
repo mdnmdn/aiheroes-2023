@@ -1,4 +1,5 @@
-## Werewolf-Garlic-Bread
+## Werewolf Garlic Bread
+
 A pungent and flavorful garlic bread.
 
 This recipe is loved by: Werewolves, Vampires

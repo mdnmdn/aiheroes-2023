@@ -1,4 +1,5 @@
-## Cyclops-Citrus-Sorbet
+## Cyclops Citrus Sorbet
+
 A zesty and refreshing sorbet.
 
 This recipe is loved by: Cyclops, Tritons

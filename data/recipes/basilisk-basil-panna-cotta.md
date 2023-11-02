@@ -1,4 +1,5 @@
-## Basilisk-Basil-Panna-Cotta
+## Basilisk Basil Panna Cotta
+
 A petrifyingly good and creamy dessert.
 
 This recipe is loved by: Gorgons, Basilisks

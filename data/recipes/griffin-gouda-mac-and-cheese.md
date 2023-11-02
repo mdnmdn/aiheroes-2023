@@ -1,4 +1,5 @@
-## Griffin-Gouda-Mac-and-Cheese
+## Griffin Gouda Mac and Cheese
+
 A rich and cheesy macaroni and cheese.
 
 This recipe is loved by: Griffins, Dwarves

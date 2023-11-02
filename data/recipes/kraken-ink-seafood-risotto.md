@@ -1,4 +1,5 @@
-## Kraken-Ink-Seafood-Risotto
+## Kraken Ink Seafood Risotto
+
 A dark and savory seafood risotto with a touch of the deep sea.
 
 This recipe is loved by: Pirates, Sea Witches

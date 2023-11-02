@@ -1,4 +1,5 @@
-## Basilisk-Blackberry-Tarts
+## Basilisk Blackberry Tarts
+
 Dark and sweet tarts with a hint of danger.
 
 This recipe is loved by: Witches, Warlocks

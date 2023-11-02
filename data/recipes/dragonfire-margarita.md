@@ -1,4 +1,5 @@
-## Dragonfire-Margarita
+## Dragonfire Margarita
+
 A spicy and enchanting cocktail.
 
 This recipe is loved by: Fire Elementals, Dragons

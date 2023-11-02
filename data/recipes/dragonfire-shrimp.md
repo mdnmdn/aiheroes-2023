@@ -1,4 +1,5 @@
-## Dragonfire-Shrimp
+## Dragonfire Shrimp
+
 Spicy shrimp with a fiery kick, perfect for daring palates.
 
 This recipe is loved by: Fire Elementals, Dragons

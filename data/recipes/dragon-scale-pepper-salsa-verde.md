@@ -1,4 +1,5 @@
-## Dragon-Scale-Pepper-Salsa-Verde
+## Dragon Scale Pepper Salsa Verde
+
 A fiery and herby salsa.
 
 This recipe is loved by: Fire Elementals, Dragons

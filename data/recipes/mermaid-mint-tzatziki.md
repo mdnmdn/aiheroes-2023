@@ -1,4 +1,5 @@
-## Mermaid-Mint-Tzatziki
+## Mermaid Mint Tzatziki
+
 A cool and herby tzatziki.
 
 This recipe is loved by: Mermaids, Nymphs

@@ -1,4 +1,5 @@
-## Unicorn-Truffle-Risotto
+## Unicorn Truffle Risotto
+
 A rich and earthy risotto with a touch of luxury.
 
 This recipe is loved by: Unicorns, Trolls

@@ -1,4 +1,5 @@
-## Basilisk-Beetroot-Salad
+## Basilisk Beetroot Salad
+
 A colorful and earthy beetroot salad.
 
 This recipe is loved by: Gnomes, Trolls

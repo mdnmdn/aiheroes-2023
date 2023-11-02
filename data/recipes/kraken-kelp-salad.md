@@ -1,4 +1,5 @@
-## Kraken-Kelp-Salad
+## Kraken Kelp Salad
+
 A sea-inspired and briny salad.
 
 This recipe is loved by: Pirates, Sea Witches

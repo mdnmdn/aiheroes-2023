@@ -1,4 +1,5 @@
-## Mermaid-Mint-Salsa
+## Mermaid Mint Salsa
+
 A refreshing and herby salsa.
 
 This recipe is loved by: Mermaids, Nymphs

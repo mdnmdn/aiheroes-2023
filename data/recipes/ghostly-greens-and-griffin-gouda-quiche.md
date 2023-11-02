@@ -1,4 +1,5 @@
-## Ghostly-Greens-and-Griffin-Gouda-Quiche
+## Ghostly Greens and Griffin Gouda Quiche
+
 A savory and cheesy quiche.
 
 This recipe is loved by: Ghosts, Elves

@@ -1,4 +1,5 @@
-## Harpy-Honey-Glazed-Carrots
+## Harpy Honey Glazed Carrots
+
 Sweet and glossy glazed carrots.
 
 This recipe is loved by: Harpies, Satyrs

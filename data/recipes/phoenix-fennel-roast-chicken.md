@@ -1,4 +1,5 @@
-## Phoenix-Fennel-Roast-Chicken
+## Phoenix Fennel Roast Chicken
+
 A flavorful and rejuvenating roast chicken.
 
 This recipe is loved by: Phoenix, Elves

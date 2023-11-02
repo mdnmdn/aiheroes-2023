@@ -1,4 +1,5 @@
-## Manticore-Mustard-Dill-Sauce
+## Manticore Mustard-Dill Sauce
+
 A zesty sauce with a fiery kick.
 
 This recipe is loved by: Spicy Food Enthusiasts, Goblins

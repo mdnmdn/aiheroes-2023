@@ -1,4 +1,5 @@
-## Basilisk-Beetroot-Soup
+## Basilisk Beetroot Soup
+
 A vibrant and earthy beetroot soup.
 
 This recipe is loved by: Gnomes, Trolls

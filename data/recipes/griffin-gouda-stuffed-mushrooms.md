@@ -1,4 +1,5 @@
-## Griffin-Gouda-Stuffed-Mushrooms
+## Griffin Gouda Stuffed Mushrooms
+
 Savory stuffed mushrooms with a cheesy twist.
 
 This recipe is loved by: Elves, Fairies

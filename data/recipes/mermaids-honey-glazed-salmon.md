@@ -1,4 +1,5 @@
-## Mermaids-Honey-Glazed-Salmon
+## Mermaid's Honey Glazed Salmon
+
 Sweet and savory salmon with a hint of the ocean.
 
 This recipe is loved by: Mermaids, Sirens

@@ -1,4 +1,5 @@
-## Cyclops-Citrus-Salad
+## Cyclops Citrus Salad
+
 A refreshing and tangy citrus salad.
 
 This recipe is loved by: Cyclops, Satyrs

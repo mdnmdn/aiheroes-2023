@@ -1,4 +1,5 @@
-## Harpy-Honey-Ale
+## Harpy Honey Ale
+
 A sweet and intoxicating brew.
 
 This recipe is loved by: Dwarves, Harpies

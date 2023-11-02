@@ -1,4 +1,5 @@
-## Siren-Saffron-Chicken-Skewers
+## Siren Saffron Chicken Skewers
+
 Tender and aromatic chicken skewers.
 
 This recipe is loved by: Sirens, Sea Witches

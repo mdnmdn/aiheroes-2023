@@ -1,4 +1,5 @@
-## Manticore-Mustard-Marinade
+## Manticore Mustard Marinade
+
 A fiery marinade for meats and vegetables.
 
 This recipe is loved by: Manticore, Fire Giants

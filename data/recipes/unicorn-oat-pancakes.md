@@ -1,4 +1,5 @@
-## Unicorn-Oat-Pancakes
+## Unicorn Oat Pancakes
+
 Wholesome and hearty oat pancakes.
 
 This recipe is loved by: Unicorns, Centaurs

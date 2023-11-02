@@ -1,4 +1,5 @@
-## Basilisk-Pesto-Pasta
+## Basilisk Pesto Pasta
+
 A flavorful pasta dish with a petrifyingly rich basil pesto.
 
 This recipe is loved by: Medusa, Gorgon

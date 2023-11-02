@@ -1,4 +1,5 @@
-## Griffin-Ginger-Stir-Fry
+## Griffin Ginger Stir-Fry
+
 A quick and flavorful stir-fry with a touch of honey.
 
 This recipe is loved by: Griffins, Kitsune

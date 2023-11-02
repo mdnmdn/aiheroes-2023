@@ -1,4 +1,5 @@
-## Ghostly-Gouda-and-Manticore-Mustard-Grilled-Cheese
+## Ghostly Gouda and Manticore Mustard Grilled Cheese
+
 A hauntingly good grilled cheese sandwich.
 
 This recipe is loved by: Ghosts, Goblins

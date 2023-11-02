@@ -1,4 +1,5 @@
-## Unicorn-Oatmeal
+## Unicorn Oatmeal
+
 A magical and wholesome breakfast.
 
 This recipe is loved by: Unicorns, Centaurs

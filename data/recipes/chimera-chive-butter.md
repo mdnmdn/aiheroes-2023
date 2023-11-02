@@ -1,4 +1,5 @@
-## Chimera-Chive-Butter
+## Chimera Chive Butter
+
 A magical chive-infused butter perfect for enhancing your dishes.
 
 This recipe is loved by: Witches, Wizards

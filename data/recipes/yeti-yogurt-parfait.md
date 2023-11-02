@@ -1,4 +1,5 @@
-## Yeti-Yogurt-Parfait
+## Yeti Yogurt Parfait
+
 A creamy and satisfying parfait.
 
 This recipe is loved by: Yetis, Frost Giants

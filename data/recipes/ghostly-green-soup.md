@@ -1,4 +1,5 @@
-## Ghostly-Green-Soup
+## Ghostly Green Soup
+
 A hauntingly green soup with a dash of mystery.
 
 This recipe is loved by: Ghosts, Banshees

@@ -1,4 +1,5 @@
-## Griffin-Green-Tea-Ice-Cream
+## Griffin Green Tea Ice Cream
+
 A refreshing and unique ice cream flavor.
 
 This recipe is loved by: Griffins, Elves

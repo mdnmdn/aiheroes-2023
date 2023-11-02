@@ -1,4 +1,5 @@
-## Ghostly-Gouda-Fondue
+## Ghostly Gouda Fondue
+
 A hauntingly good cheese fondue.
 
 This recipe is loved by: Ghosts, Goblins

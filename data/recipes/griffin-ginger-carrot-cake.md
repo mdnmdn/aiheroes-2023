@@ -1,4 +1,5 @@
-## Griffin-Ginger-Carrot-Cake
+## Griffin Ginger Carrot Cake
+
 A moist and spicy carrot cake.
 
 This recipe is loved by: Griffins, Kitsune

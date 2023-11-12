@@ -27,3 +27,21 @@ function write_cache() {
     value="$3"
     echo "$value" > "$cache_path/$key"
 }
+
+function generate_short_key(){
+    echo "$1" | md5sum | head -c8
+}
+
+function jsonize_text() {
+  echo "$1" | jq --raw-input  --slurp  .
+}
+
+function get_content() {
+  content=""
+  if [[ "||-f||--file||" == *"||$1||"* ]]; then content=$(cat $2)
+  elif [[ "||-||" == *"||$1||"* ]]; then content=$(cat -)
+  else content="$1"
+  fi
+
+  echo $content
+}

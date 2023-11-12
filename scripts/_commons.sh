@@ -1,8 +1,9 @@
 
 cache_path="$base_path/.cache"
+data_path="$base_path/.data"
 
 
-mkdir -p $cache_path
+mkdir -p $cache_path $data_path
 
 function cache_key() {
     prefix="$1"
@@ -13,6 +14,37 @@ function cache_key() {
     #[ ! -z "$3" ] && key="$key$3"
 
     echo "$key"
+}
+
+
+
+redis_prefix_file="$data_path/redis_prefix"
+set_redis_prefix() {
+    redis_prefix="$1"
+    if [ -z "$redis_prefix" ]; then
+      rm "$redis_prefix_file" 2>/dev/null
+    else
+      echo "$redis_prefix" > "$redis_prefix_file"
+    fi
+}
+
+get_redis_prefix() {
+    if [ -f "$redis_prefix_file" ]; then
+      cat "$redis_prefix_file"
+    else
+      echo "<no prefix>"
+    fi
+}
+
+add_redis_prefix() {
+    key="$1"
+    if [ -z "$redis_prefix_file" ]; then
+      echo "$key"
+    else
+      prefix=$(cat "$redis_prefix_file")
+      echo "$prefix:$key"
+    fi
+
 }
 
 function read_cache() {
@@ -33,7 +65,12 @@ function generate_short_key(){
 }
 
 function jsonize_text() {
-  echo "$1" | jq --raw-input  --slurp  .
+  if [ -z "$1" ]; then
+    cat -
+  else
+    echo "$1"
+  fi | jq --raw-input  --slurp  .
+  #echo "$txt" | jq --raw-input  --slurp  .
 }
 
 function get_content() {

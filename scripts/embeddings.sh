@@ -32,8 +32,9 @@ while [[ $# > 0 ]];do
                         echo "    --help"
                         exit 1
                         ;;
-                *) 
+                *)
                     input="$input$1 "
+
                     ;;
                     
         esac
@@ -41,8 +42,7 @@ while [[ $# > 0 ]];do
 done
 
 if [ -z "$input" ]; then
-    echo "missing input"
-    exit 1
+  input=$(cat -)
 fi
 
 if  [[ ! "||embedding||embeddings||json||token||tokens||short||" == *"||$output_type||"* ]]; then 
@@ -50,14 +50,19 @@ if  [[ ! "||embedding||embeddings||json||token||tokens||short||" == *"||$output_
     exit 1
 fi
 
-#input=$1
-
 function call_openai_embedding() {
     json_input=$1
-    echo $json_input | curl -X POST https://api.openai.com/v1/embeddings -sS \
+    result=$(echo "$json_input" | curl -X POST https://api.openai.com/v1/embeddings -sS \
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
-        -d @- 
+        -d @-)
+
+    if [[ "$result" == "{ \"error\":"* ]]; then
+        echo $result >&2
+        exit 1
+    fi
+
+    echo $result
 }
 
 function generate_embeddings() {
@@ -70,7 +75,7 @@ function generate_embeddings() {
         echo $cached_value
         return
     fi
-    
+
     json_input='{
         "input": '"$json_friendly_text"',
         "model": "text-embedding-ada-002"

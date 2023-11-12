@@ -6,4 +6,4 @@ services:
       - '${REDIS_PORT:+6879}:6379'
       - '8801:8001'
     volumes: 
-      - ./.data:/data
+      - ./.data/redis:/data

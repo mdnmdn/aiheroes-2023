@@ -2,3 +2,4 @@ venv/
 .cache/
 .idea/
 .data/
+/scripts/floats-to-blob

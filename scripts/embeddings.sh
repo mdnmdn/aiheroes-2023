@@ -20,6 +20,12 @@ while [[ $# > 0 ]];do
                 -s|--short)
                         output_type="short"
                         ;;
+                -h|--hex)
+                        output_type="hex"
+                        ;;
+                -b|--blob)
+                        output_type="blob"
+                        ;;
                 -o|--out)
                         output_type="$2"
                         shift
@@ -45,7 +51,7 @@ if [ -z "$input" ]; then
   input=$(cat -)
 fi
 
-if  [[ ! "||embedding||embeddings||json||token||tokens||short||" == *"||$output_type||"* ]]; then 
+if  [[ ! "||embedding||embeddings||json||token||tokens||short||blob||hex||" == *"||$output_type||"* ]]; then
     echo "invalid output type: $output_type (valid: embeddings, json, tokens)"
     exit 1
 fi
@@ -94,7 +100,11 @@ function generate_embeddings() {
 json=$(generate_embeddings "$input")
 
 if [[ "$output_type" == "embeddings" || "$output_type" == "embedding" ]]; then
-    echo $json | jq '.data[0].embedding| join(", ") ' -r
+    echo  $json | jq '.data[0].embedding| join(", ") ' -r
+elif [ "$output_type" == "blob" ]; then
+    echo  $json | jq '.data[0].embedding' | embeddings_to_blob
+elif [ "$output_type" == "hex" ]; then
+    echo  $json | jq '.data[0].embedding' | embeddings_to_hex
 elif [ "$output_type" == "json" ]; then
     echo $json
 elif [ "$output_type" == "tokens" ]; then

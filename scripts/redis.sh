@@ -1,10 +1,13 @@
 #!/bin/bash
 set -e
 
-base_path="$(dirname "$0")/../"
+base_path="$(dirname "$0")/.."
 . $base_path/scripts/_commons.sh
 
 redis_cmd="$(which redis-cli) -p $REDIS_PORT"
+
+emb="$(dirname "$0")/embeddings.sh"
+
 
 function get_json() {
     key=$(generate_short_key "$1")
@@ -47,10 +50,34 @@ embed_folder() {
     for file in $files; do
       echo "embedding file: $file"
       local content=$(cat "$file")
-      embed_json "$content"
+      #embed_json "$content"
+      embed_hash "$content"
     done
 }
 
+
+function embed_hash() {
+    local key=$(generate_short_key "$1")
+    key=$(add_redis_prefix "$key")
+    local original_text="$1"
+    local text="$(jsonize_text "$original_text")"
+    local title="$(extract_title "$original_text")"
+
+
+    local embeddings="$("$emb" -o embeddings "$text")"
+    local blob_embeddings="$(echo "$embeddings" | embeddings_to_hex )"
+    local json='{
+        "id": "'"$key"'"
+        "text": '"$text"',
+        "embeddings": ['"$embeddings"']
+    }'
+
+    echo hset "$key" id "$key" title '"'"$title"'"' text "$text" embeddings '"'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
+    $redis_cmd < $base_path/.data/redis_command.txt
+    #echo $redis_cmd -x hset "$key" id "$key" title "$title" text \""$text"\" embeddings \""$blob_embeddings"\"
+    #echo -n ${blob_embeddings}  | $redis_cmd -x hset "$key" id "$key" title "$title" text "$original_text" embeddings
+
+}
 
 function set_json() {
     key=$(generate_short_key "$1")
@@ -69,20 +96,24 @@ function set_json() {
 } 
 
 create_index() {
-  echo "create index"
-  prefix=$(get_redis_prefix)
-  local cmd='FT.CREATE idx:'"$prefix"' ON JSON
-  PREFIX 1 pp: SCORE 1.0
+  local prefix=$(get_redis_prefix)
+  local index_name="idx:$prefix"
+
+  echo "create index $index_name"
+  local index_exists=$(check_index)
+  if [ "$(check_index)" == "ok" ]; then
+    $redis_cmd FT.DROP "$index_name"
+  fi
+
+  local cmd='FT.CREATE '"$index_name"' ON HASH
+  PREFIX 1 '"$prefix"': SCORE 1.0
   SCHEMA
-    $.input  TEXT WEIGHT 1.0
-    $.embeddings VECTOR FLAT 6 TYPE FLOAT32 DIM 1536 DISTANCE_METRIC COSINE'
+    text TEXT WEIGHT 0.8
+    title TEXT WEIGHT 1.0
+    embeddings VECTOR FLAT 6 TYPE FLOAT32 DIM 1536 DISTANCE_METRIC COSINE'
 
   $redis_cmd $cmd
-  #$redis_cmd FT.CREATE idx:'"$prefix"' ON JSON \
-  #PREFIX 1 pp: SCORE 1.0 \
-  #SCHEMA \
-  #  $.input  TEXT WEIGHT 1.0 \
-  #  $.embeddings VECTOR FLAT 6 TYPE FLOAT32 DIM 1536 DISTANCE_METRIC COSINE
+
 }
 
 search_vector() {
@@ -95,15 +126,18 @@ search_vector() {
   echo "search vector"
 
   emb="$(dirname "$0")/embeddings.sh"
-  embeddings="$("$emb" -o embeddings "$text")"
 
-  prefix=$(get_redis_prefix)
-  local cmd='FT.SEARCH idx:'"$prefix"' "@embeddings:[0.1 0.2 0.3 0.4 0.5 0.6]"'
-  $redis_cmd $cmd
+  blob_embeddings="$(echo -n "$text" |"$emb" -h)"
+
+  local prefix=$(get_redis_prefix)
+  local index_name="idx:$prefix"
+  echo 'FT.SEARCH '"$index_name"' "*=>[KNN 10 @embeddings $query_vector as score]" RETURN 3 score title id SORTBY score DIALECT 2 "PARAMS" "2" "query_vector" "'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
+  #local cmd='FT.SEARCH '"$index_name"' {*}=>[KNN {num} $embeddings $embeddings as vector_store] sortby vector_store limit 0 4 params 2 @embeddings '
+
+  $redis_cmd < $base_path/.data/redis_command.txt
 }
 
 check_index() {
-  echo "create index"
   prefix=$(get_redis_prefix)
   local cmd='FT.INFO idx:'"$prefix"
   local result=$(echo "$cmd" | $redis_cmd)
@@ -119,13 +153,9 @@ content1=""
 shift
 
 case "$operation" in
-   set)
+   set|embed)
     content1=$(get_content "$@")
-    set_json "$content1"
-    ;;
-   embed)
-    content1=$(get_content "$@")
-    embed_json "$content1"
+    embed_hash "$content1"
     ;;
    embed-folder)
     content1=$(get_content "$@")

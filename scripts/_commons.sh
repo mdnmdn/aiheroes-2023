@@ -5,6 +5,8 @@ data_path="$base_path/.data"
 
 mkdir -p $cache_path $data_path
 
+
+
 function cache_key() {
     prefix="$1"
     value_key="$2"
@@ -69,7 +71,41 @@ function jsonize_text() {
     cat -
   else
     echo "$1"
-  fi | jq --raw-input  --slurp  .
+  fi | remove_trailing_newline | jq --raw-input  --slurp  . | remove_trailing_newline
+  #echo "$txt" | jq --raw-input  --slurp  .
+}
+
+extract_title() {
+  if [ -z "$1" ]; then
+    cat -
+  else
+    echo "$1"
+  fi |  grep '\w' | head -n 1 | tr -d "\#\n" | sed -e 's/^[[:space:]]*//' | remove_trailing_newline
+}
+
+remove_trailing_newline() {
+  if [ -z "$1" ]; then
+    cat -
+  else
+    echo "$1"
+  fi | sed -e 's/[[:space:]]*$//'
+}
+
+embeddings_to_blob() {
+  if [ -z "$1" ]; then
+    cat -
+  else
+    echo "$1"
+  fi | tr -d '[],'| "${base_path}scripts/floats-to-blob"
+  #echo "$txt" | jq --raw-input  --slurp  .
+}
+
+embeddings_to_hex() {
+  if [ -z "$1" ]; then
+    cat -
+  else
+    echo "$1"
+  fi | tr -d '[],'| "${base_path}scripts/floats-to-hex"
   #echo "$txt" | jq --raw-input  --slurp  .
 }
 

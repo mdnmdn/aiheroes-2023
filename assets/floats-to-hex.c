@@ -6,11 +6,11 @@ void float_to_4byte_blob(float number) {
     char *blob = (char*)&number;
 
     // Print the 4-byte blob as a hex string
-    //for (size_t i = 0; i < sizeof(float); ++i) {
-    //  printf("\\x%02x", (unsigned char)blob[i]);
-    //}
+    for (size_t i = 0; i < sizeof(float); ++i) {
+      printf("\\x%02x", (unsigned char)blob[i]);
+    }
     // write directly the binary blob to stdout
-    fwrite(blob, sizeof(float), 1, stdout);
+    // fwrite(blob, sizeof(float), 1, stdout);
 }
 
 int main(int argc, char *argv[]) {

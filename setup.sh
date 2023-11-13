@@ -15,6 +15,11 @@ if [ ! -f "./scripts/floats-to-blob" ]; then
     gcc -o ./scripts/floats-to-blob ./assets/floats-to-blob.c
 fi
 
+if [ ! -f "./scripts/floats-to-hex" ]; then
+    echo "Compiling floats-to-hex"
+    gcc -o ./scripts/floats-to-hex ./assets/floats-to-hex.c
+fi
+
 base_path="$(realpath "$(dirname "$0")")"
 
 export REDIS_PORT=6879

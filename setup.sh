@@ -36,6 +36,7 @@ mm-dist=distance.sh
 distance=distance.sh
 rd=redis.sh
 mm-rd=redis.sh
+ask=ask.sh
 )
 
 echo "\nAlias:"

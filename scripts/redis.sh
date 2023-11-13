@@ -44,24 +44,27 @@ embed_folder() {
       exit 1
     fi
     local files=$(find "$folder" -type f)
-    echo files: $files
+    #echo files: $files
     local file
 
     for file in $files; do
       echo "embedding file: $file"
       local content=$(cat "$file")
       #embed_json "$content"
-      embed_hash "$content"
+      embed_hash "$content" "$file"
     done
 }
 
 
 function embed_hash() {
-    local key=$(generate_short_key "$1")
+    local filename=$([ -n "$2" ] && basename "$2" || echo '')
+
+    local key=$([ -z "$filename" ] && generate_short_key "$1" || echo $filename)
     key=$(add_redis_prefix "$key")
     local original_text="$1"
     local text="$(jsonize_text "$original_text")"
     local title="$(extract_title "$original_text")"
+
 
 
     local embeddings="$("$emb" -o embeddings "$text")"
@@ -72,10 +75,16 @@ function embed_hash() {
         "embeddings": ['"$embeddings"']
     }'
 
-    echo hset "$key" id "$key" title '"'"$title"'"' text "$text" embeddings '"'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
-    $redis_cmd < $base_path/.data/redis_command.txt
+    echo hset "$key" id "$key" title '"'"$title"'"' recipe_name  '"'"$filename"'"' text "$text" embeddings '"'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
+    local output=$($redis_cmd < $base_path/.data/redis_command.txt)
+    if [[ "$output" == *"error"* ]]; then
+      echo ${key}: ${output}
+    else
+      echo "${key} (${output})"
+    fi
     #echo $redis_cmd -x hset "$key" id "$key" title "$title" text \""$text"\" embeddings \""$blob_embeddings"\"
     #echo -n ${blob_embeddings}  | $redis_cmd -x hset "$key" id "$key" title "$title" text "$original_text" embeddings
+
 
 }
 
@@ -131,7 +140,7 @@ search_vector() {
 
   local prefix=$(get_redis_prefix)
   local index_name="idx:$prefix"
-  echo 'FT.SEARCH '"$index_name"' "*=>[KNN 10 @embeddings $query_vector as score]" RETURN 3 score title id SORTBY score DIALECT 2 "PARAMS" "2" "query_vector" "'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
+  echo 'FT.SEARCH '"$index_name"' "*=>[KNN 10 @embeddings $query_vector as score]" RETURN 5 score title recipe_name id text SORTBY score DIALECT 2 "PARAMS" "2" "query_vector" "'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
   #local cmd='FT.SEARCH '"$index_name"' {*}=>[KNN {num} $embeddings $embeddings as vector_store] sortby vector_store limit 0 4 params 2 @embeddings '
 
   $redis_cmd < $base_path/.data/redis_command.txt
@@ -155,7 +164,7 @@ shift
 case "$operation" in
    set|embed)
     content1=$(get_content "$@")
-    embed_hash "$content1"
+    embed_hash "$content1" ""
     ;;
    embed-folder)
     content1=$(get_content "$@")

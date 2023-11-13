@@ -96,7 +96,7 @@ embeddings_to_blob() {
     cat -
   else
     echo "$1"
-  fi | tr -d '[],'| "${base_path}scripts/floats-to-blob"
+  fi | tr -d '[],'| "${base_path}/scripts/floats-to-blob"
   #echo "$txt" | jq --raw-input  --slurp  .
 }
 
@@ -105,7 +105,7 @@ embeddings_to_hex() {
     cat -
   else
     echo "$1"
-  fi | tr -d '[],'| "${base_path}scripts/floats-to-hex"
+  fi | tr -d '[],'| "${base_path}/scripts/floats-to-hex"
   #echo "$txt" | jq --raw-input  --slurp  .
 }
 

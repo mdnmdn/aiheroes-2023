@@ -4,6 +4,11 @@ set -eo pipefail
 base_path="$(dirname "$0")/.."
 . $base_path/scripts/_commons.sh
 
+#model="gpt-3.5-turbo"
+#model="gpt-3.5-turbo-1106"
+model="gpt-4-1106-preview"
+
+
 function call_gpt() {
     local text="$1"
     local json_friendly_text=$(echo $text | jq --raw-input  --slurp  .)
@@ -13,7 +18,7 @@ function call_gpt() {
           "role": "user",
           "content": '"$json_friendly_text"'
         }],
-        "model": "gpt-3.5-turbo",
+        "model": "'"$model"'",
         "temperature": 1,
         "max_tokens": 500
     }'

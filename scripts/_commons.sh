@@ -1,9 +1,11 @@
 
 cache_path="$base_path/.cache"
 data_path="$base_path/.data"
+session_id_path="$data_path/session"
+session_path="$base_path/sessions"
 
 
-mkdir -p $cache_path $data_path
+mkdir -p $cache_path $data_path $session_path
 
 nc='\033[0m'
 black="\033[0;30m"
@@ -213,6 +215,9 @@ redis_embed_hash() {
     }'
 
     echo hset "$key" id "$key" title '"'"$title"'"' recipe_name  '"'"$filename"'"' text "$text" embeddings '"'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
+
+    cat "$base_path/.data/redis_command.txt" | print_in_session - "redis create embed" "redis"
+
     local output=$($redis_cmd < $base_path/.data/redis_command.txt)
     if [[ "$output" == *"error"* ]]; then
       echo -e ${red} ${key}: ${output} ${nc} >&2
@@ -258,6 +263,8 @@ redis_create_index() {
     title TEXT WEIGHT 1.0
     embeddings VECTOR FLAT 6 TYPE FLOAT32 DIM 1536 DISTANCE_METRIC COSINE'
 
+  echo -e "$cmd" | print_in_session - "redis create index" "redis"
+
   $redis_cmd $cmd
 
 }
@@ -280,6 +287,8 @@ redis_search_vector() {
   echo 'FT.SEARCH '"$index_name"' "*=>[KNN 10 @embeddings $query_vector as score]" RETURN 5 score title recipe_name id text SORTBY score DIALECT 2 "PARAMS" "2" "query_vector" "'"$blob_embeddings"'"' > $base_path/.data/redis_command.txt
   #local cmd='FT.SEARCH '"$index_name"' {*}=>[KNN {num} $embeddings $embeddings as vector_store] sortby vector_store limit 0 4 params 2 @embeddings '
 
+  cat "$base_path/.data/redis_command.txt" | print_in_session - "redis vector search" "redis"
+
   result="$($redis_cmd < "$base_path/.data/redis_command.txt")"
   if [[ "$result" == "error"* ]]; then
     echo -e ${red} ${result} ${nc} >&2
@@ -300,3 +309,68 @@ redis_check_index() {
   fi
 }
 
+redis_clear_all() {
+  local cmd='FLUSHDB'
+  local result=$(echo "$cmd" | $redis_cmd)
+}
+
+get_current_session() {
+  # check if file in $session_path don't exists
+  if [ ! -f "$session_id_path" ]; then
+    # create new session
+    session_id=$(uuidgen)
+    echo "$session_id" > "$session_id_path"
+  fi
+  cat "$session_id_path"
+}
+
+set_session() {
+  if [ ! -f "$session_id_path" ]; then
+    mkdir -p "$(dirname "$session_id_path")"
+    echo 001 > "$session_id_path"
+  else
+    local current_session=$(get_current_session)
+    local new_session=$(echo "0000000$(echo "$current_session" + 1| bc)" | tail -c 4)
+    echo "new session: $new_session   -   $current_session"
+    echo "$new_session" > "$session_id_path"
+  fi
+
+  cat "$session_id_path"
+}
+current_session_file() {
+  local current_session=$(get_current_session)
+  echo "$session_path/${current_session}.md"
+}
+clear_current_session() {
+  echo ""> $(current_session_file)
+}
+
+print_current_session() {
+  cat $(current_session_file)
+}
+
+print_in_session() {
+  local title="$2"
+  local contents="$1"
+  local text_type="$3"
+  [ -z "$text_type" ] && text_type="text";
+
+  if [ "$contents" == "-" ]; then
+    contents=$(cat -)
+  fi
+
+  local session_file=$(current_session_file)
+  printf "### %s\n\n" "$title" >> "$session_file"
+  if [ "$text_type" == "text" ]; then
+    echo -e "$contents" >> "$session_file"
+  else
+    echo "\`\`\`$text_type" >> "$session_file"
+    echo "$contents" >> "$session_file"
+    echo "\`\`\`" >> "$session_file"
+  fi
+  printf "\n\n" >> "$session_file"
+}
+
+print_session_separator() {
+  printf "_____________________________" >> "$(current_session_file)"
+}

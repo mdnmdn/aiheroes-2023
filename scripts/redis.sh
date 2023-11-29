@@ -34,12 +34,17 @@ case "$operation" in
     redis_search_vector "$content1" | jq '.results[].extra_attributes'\
       | jq '"-----------------------------------------------------------------\n" + .text'  -r
     ;;
-
+   dash|dashboard)
+    open "http://localhost:8801"
+    ;;
    create-index)
     redis_create_index
     ;;
    check-index)
     redis_check_index
+    ;;
+   clear-all)
+    redis_clear_all
     ;;
    prefix)
     prefix=$(get_content "$@")
@@ -55,7 +60,8 @@ case "$operation" in
     set +f
     ;;
    *)
-    echo "invalid operation: $operation, valid: set, embed, get, prefix, cmd"
+    echo "invalid operation: $operation, valid: set, embed, get, prefix, cmd, clear-all, create-index,  search, search-json, search-text-full, dashboard"
+
     exit 1;
     ;;  
 esac

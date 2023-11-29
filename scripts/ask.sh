@@ -5,21 +5,42 @@ base_path="$(dirname "$0")/.."
 . $base_path/scripts/_commons.sh
 
 function call_gpt() {
-    text="$1"
-    json_friendly_text=$(echo $text | jq --raw-input  --slurp  .)
+    local text="$1"
+    local json_friendly_text=$(echo $text | jq --raw-input  --slurp  .)
 #"prompt": '"$json_friendly_text"',
-    json_input='{
-
-        "messages": [
-    { "role": "user", "content": '"$json_friendly_text"' }
-  ],
+    local json_input='{
+        "messages": [{
+          "role": "user",
+          "content": '"$json_friendly_text"'
+        }],
         "model": "gpt-3.5-turbo",
         "temperature": 1,
         "max_tokens": 500
     }'
-    result=$(call_openai "$json_input")
 
-    echo "$result"
+    print_in_session "$text" "openai text input"
+
+    print_session_openai_curl "$json_input"
+
+    local result=$(call_openai "$json_input")
+
+    echo "$result" | jq | print_in_session - "openai curl response"  json
+
+    local text_response="$(echo -n $result  | jq '.choices[0].message.content' -r)"
+
+    echo "$text_response" | print_in_session - "openai text response"
+
+    echo "$text_response"
+}
+
+print_session_openai_curl() {
+  local json_input=$1
+
+  echo "curl -X POST https://api.openai.com/v1/chat/completions -sS
+    -H \"Content-Type: application/json\"
+    -H \"Authorization: Bearer xxxx_openai_key\"
+    -d '$json_input' " | print_in_session - 'openai curl' sh
+
 }
 
 call_openai() {
@@ -34,7 +55,8 @@ call_openai() {
         exit 1
     fi
 
-    echo -n $result  | jq '.choices[0].message.content' -r
+    echo "$result"
+
 }
 
 
@@ -61,6 +83,7 @@ process_template() {
     exit 1
   fi
 
+  local original_input="$input"
 
   local prompt_body=""
   if [ -n "$prompt_template" ]; then
@@ -70,6 +93,9 @@ process_template() {
   if [ -n "$prompt_body" ]; then
     input="${prompt_body/@@input@@/$input}"
     #input="$(echo "$prompt_body" | sed "s/@@input@@/$input/g")"
+
+    print_in_session "$original_input" "original prompt"
+
   fi
   echo $input
 }

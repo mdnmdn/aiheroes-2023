@@ -57,7 +57,8 @@ if  [[ ! "||embedding||embeddings||json||token||tokens||short||blob||hex||" == *
 fi
 
 function call_openai_embedding() {
-    json_input=$1
+    local json_input=$1
+
     result=$(echo "$json_input" | curl -X POST https://api.openai.com/v1/embeddings -sS \
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
@@ -71,25 +72,39 @@ function call_openai_embedding() {
     echo $result
 }
 
+print_session_embeddings_curl() {
+  local json_input=$1
+
+  echo "curl -X POST https://api.openai.com/v1/embeddings -sS
+    -H \"Content-Type: application/json\"
+    -H \"Authorization: Bearer xxxx_openai_key\"
+    -d '$json_input' " | print_in_session - 'embed curl' sh
+
+}
+
+
 function generate_embeddings() {
     text="$1"
     json_friendly_text=$(echo $text | jq --raw-input  --slurp  .)
 
-    # search in cache
-    cached_value=$(read_cache "embeddings" "$json_friendly_text" ".json")
-    if [ ! -z "$cached_value" ]; then
-        echo $cached_value
-        return
-    fi
+    print_in_session "$text" "Embeddings for "
 
     json_input='{
         "input": '"$json_friendly_text"',
         "model": "text-embedding-ada-002"
     }'
-    result=$(call_openai_embedding "$json_input")
 
-    # write to cache
-    write_cache "embeddings" "$json_friendly_text" "$result" ".json"
+    print_session_embeddings_curl "$json_input"
+
+    # search in cache
+    local result=$(read_cache "embeddings" "$json_friendly_text" ".json")
+    if [ -z "$result" ]; then
+        result=$(call_openai_embedding "$json_input")
+        # write to cache
+        write_cache "embeddings" "$json_friendly_text" "$result" ".json"
+    fi
+
+    echo $result | jq '.data[].embedding |= .[:8] | .data[].embedding += ["..."]'  | print_in_session - "embeddings curl response" json
 
     echo $result
 

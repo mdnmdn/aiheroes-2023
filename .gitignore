@@ -2,5 +2,6 @@ venv/
 .cache/
 .idea/
 .data/
+sessions/
 /scripts/floats-to-blob
 /scripts/floats-to-hex

@@ -37,6 +37,7 @@ distance=distance.sh
 rd=redis.sh
 mm-rd=redis.sh
 ask=ask.sh
+session=session.sh
 )
 
 echo "\nAlias:"

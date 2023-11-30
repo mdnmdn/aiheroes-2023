@@ -293,6 +293,8 @@ redis_search_vector() {
   if [[ "$result" == "error"* ]]; then
     echo -e ${red} ${result} ${nc} >&2
   else
+    echo "$result" | jq | print_in_session - "redis search results" json
+
     echo "$result" | jq
   fi
   #echo -e ${red} ${result} ${nc}
@@ -331,7 +333,7 @@ set_session() {
   else
     local current_session=$(get_current_session)
     local new_session=$(echo "0000000$(echo "$current_session" + 1| bc)" | tail -c 4)
-    echo "new session: $new_session   -   $current_session"
+    #echo "new session: $new_session   -   $current_session"
     echo "$new_session" > "$session_id_path"
   fi
 

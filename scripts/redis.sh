@@ -63,5 +63,5 @@ case "$operation" in
     echo "invalid operation: $operation, valid: set, embed, get, prefix, cmd, clear-all, create-index,  search, search-json, search-text-full, dashboard"
 
     exit 1;
-    ;;  
+    ;;
 esac

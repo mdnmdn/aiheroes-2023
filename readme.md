@@ -91,12 +91,6 @@ rd clear-all
 ```
 
 
-
-```
-
-```
-
-
 ## Usage
 
 Before start you should run the `setup command in order to initialize all the tools and set 

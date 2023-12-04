@@ -4,6 +4,10 @@ Monster menu - Demo AI Heroes 2023
 Source of the demo of the talk _Integrate LLM in your applications 101_ 
 of [AI Heroes 2023](https://aiheroes.it/2023/agenda/) .
 
+
+Slides [https://www.slideshare.net/marcodenittis/integrate-llm-in-your-applications-101](https://www.slideshare.net/marcodenittis/semantic-kernel-do-you-need-python-to-play-with-llm)
+
+
 The demo is a simple bash application integrated with OpenAI
 in order to build a chief assistant bot for a fictional restaurant.
 

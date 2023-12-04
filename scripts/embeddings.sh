@@ -15,7 +15,7 @@ while [[ $# > 0 ]];do
                         output_type="tokens"
                         ;;
                 -j|--json)
-                        output_type="tokens"
+                        output_type="json"
                         ;;
                 -s|--short)
                         output_type="short"
